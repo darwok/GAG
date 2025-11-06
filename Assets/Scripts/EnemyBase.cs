@@ -1,4 +1,4 @@
-// EnemyBase.cs
+using Unity.VisualScripting;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider2D))]
@@ -33,10 +33,10 @@ public abstract class EnemyBase : MonoBehaviour, IDamageable
     protected virtual void Die()
     {
         // TODO: anim "Death"
+        EventBus.OnEnemyKilled?.Invoke(gameObject);
         Destroy(gameObject, 0.1f);
     }
 
-    // Daño por contacto al jugador
     protected virtual void OnCollisionEnter2D(Collision2D col)
     {
         if (col.collider.TryGetComponent<IDamageable>(out var dmg) &&
