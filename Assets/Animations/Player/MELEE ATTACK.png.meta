@@ -61,7 +61,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -334,7 +334,16 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      MELEE ATTACK_0: -8123172887606172516
+      MELEE ATTACK_1: 5847770776445563669
+      MELEE ATTACK_2: -7285540137741194117
+      MELEE ATTACK_3: -440809576637286997
+      MELEE ATTACK_4: -3523139180061199098
+      MELEE ATTACK_5: -7840480947264532079
+      MELEE ATTACK_6: 1391803653311783898
+      MELEE ATTACK_7: 4119019854268551203
+      MELEE ATTACK_8: 8275616671675758517
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -7,18 +7,22 @@ public class PlayerController : MonoBehaviour
     [Header("Movimiento")]
     [SerializeField] private float speed = 5f;
     [SerializeField] private float jumpForce = 8f;
+    public bool blockInput;
 
-    [Header("Comprobación de suelo")]
+    [Header("Comprobaciï¿½n de suelo")]
     [SerializeField] private Transform groundCheck;
     [SerializeField] private float groundRadius = 0.2f;
     [SerializeField] private LayerMask groundLayer;
+    public float groundedRadius = 1;
+
+    [Header("HP Management")]
+    [SerializeField] private PlayerHP hp;
 
     private Rigidbody2D rb;
     private bool isGrounded;
     private float moveInput;
     private Animator anim;
 
-    public bool blockInput;
     private int jumpCounter;
     private bool facingRight = false;
 
@@ -37,13 +41,25 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        GroundCheck();
+
         if (blockInput) return;
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            float force = facingRight ? 250 : -250;
+            rb.linearVelocity = Vector2.zero;
+            rb.AddForce(new Vector2(force, 0));
+            Attack();
+        }
 
         // Entrada horizontal
         moveInput = Input.GetAxisRaw("Horizontal");
 
-        // Saltar solo si está en el suelo
-        if (Input.GetButtonDown("Jump") && isGrounded)
+        anim?.SetFloat("MoveSpeed", Mathf.Abs(moveInput));
+
+        // Saltar solo si estï¿½ en el suelo
+        if (Input.GetButtonDown("Jump"))
         {
             jumpCounter++;
 
@@ -68,13 +84,60 @@ public class PlayerController : MonoBehaviour
         blockInput = value;
     }
 
+    private void GroundCheck()
+    {
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(groundCheck.transform.position, groundedRadius, groundLayer);
+        isGrounded = colliders.Length > 0;
+
+        anim.SetBool("Airborne", !isGrounded);
+
+        if (isGrounded)
+        {
+            jumpCounter = 0;
+        }
+    }
     void FixedUpdate()
     {
         // Movimiento lateral
         rb.linearVelocity = new Vector2(moveInput * speed, rb.linearVelocity.y);
 
-        // Verificar si está tocando el suelo
-        isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundRadius, groundLayer);
+        //// Verificar si estï¿½ tocando el suelo
+        //isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundRadius, groundLayer);
+    }
+
+    public void Attack()
+    {
+        anim?.SetTrigger("Attack");
+    }
+
+    public void Death()
+    {
+        BlockInput(true);
+        anim?.SetTrigger("Death");
+    }
+
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        if (hp == null || !hp.IsAlive())
+        {
+            return;
+        }
+
+        switch (other.gameObject.tag)
+        {
+            case "Enemy":
+                hp.RemoveHp(1);
+
+                Vector2 direction = facingRight ? Vector2.left : Vector2.right;
+                direction += Vector2.up;
+                GetComponent<Rigidbody>().AddForce(direction * KNOCKBACK_FORCE);
+                break;
+
+            case "Hazard":
+                hp.RemoveHp(hp.maxHp);
+                GetComponent<Rigidbody>().AddForce(Vector3.up * KNOCKBACK_FORCE);
+                break;
+        }
     }
 
     void OnDrawGizmosSelected()
