@@ -7,6 +7,7 @@ public abstract class EnemyBase : MonoBehaviour, IDamageable
     [SerializeField] protected int maxHealth = 2;
     [SerializeField] protected int contactDamage = 1;
     [SerializeField] protected float invulnTime = 0.2f;
+    private Animator anim;
 
     protected int health;
     protected float invulnTimer;
@@ -35,6 +36,8 @@ public abstract class EnemyBase : MonoBehaviour, IDamageable
         // TODO: anim "Death"
         EventBus.OnEnemyKilled?.Invoke(gameObject);
         Destroy(gameObject, 0.1f);
+        anim.SetTrigger("Death");
+
     }
 
     protected virtual void OnCollisionEnter2D(Collision2D col)

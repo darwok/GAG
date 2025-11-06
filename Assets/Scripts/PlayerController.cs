@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
     [Header("Movimiento")]
     [SerializeField] private float speed = 5f;
     [SerializeField] private float jumpForce = 8f;
+    [SerializeField] private int maxJumps = 2;
     private int jumpCounter;
     public bool blockInput;
     private float moveInput;
@@ -68,16 +69,20 @@ public class PlayerController : MonoBehaviour
         facing = moveInput > 0 ? 1 : -1;
         anim?.SetFloat("MoveSpeed", Mathf.Abs(moveInput));
 
-        // Saltar solo si est� en el suelo
+        // Saltar solo si está en el suelo
+        //if (Input.GetButtonDown("Jump"))
+        //{
+        //    jumpCounter++;
+
+        //    if (jumpCounter >= MaxJumps) return;
+
+        //    jumpCounter = Mathf.Clamp(jumpCounter, 0, MaxJumps - 1);
+        //    rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+        //    anim.SetTrigger("Jump");
+        //}
         if (Input.GetButtonDown("Jump"))
         {
-            jumpCounter++;
-
-            if (jumpCounter >= MaxJumps) return;
-
-            jumpCounter = Mathf.Clamp(jumpCounter, 0, MaxJumps - 1);
-            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
-            anim.SetTrigger("Jump");
+            TryJump();
         }
 
         if (!facingRight && moveInput > 0)
@@ -94,14 +99,33 @@ public class PlayerController : MonoBehaviour
         blockInput = value;
     }
 
+    private void TryJump()
+    {
+        if (isGrounded && jumpCounter > 0) jumpCounter = 0;
+
+        if (jumpCounter < maxJumps)
+        {
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+            jumpCounter++;
+            anim?.SetTrigger("Jump");
+        }
+        // if already jumped max times, do nothing, had to test it a few times
+    }
+
     private void GroundCheck()
     {
         Collider2D[] colliders = Physics2D.OverlapCircleAll(groundCheck.transform.position, groundedRadius, groundLayer);
+        bool wasGrounded = isGrounded;
         isGrounded = colliders.Length > 0;
 
         anim.SetBool("Airborne", !isGrounded);
 
-        if (isGrounded)
+        if (isGrounded && !wasGrounded)
+        {
+            jumpCounter = 0;
+        }
+
+        if (isGrounded && jumpCounter != 0)
         {
             jumpCounter = 0;
         }

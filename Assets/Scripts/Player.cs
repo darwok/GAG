@@ -8,6 +8,11 @@ public class Player : MonoBehaviour, IDamageable
     [SerializeField] private float speed = 5f;
     [SerializeField] private float jumpForce = 8f;
 
+    [Header("Doble salto")]
+    [SerializeField] private int maxJumps = 2;
+    [SerializeField] private float groundedRadius = 0.6f;
+    private int jumpCounter;
+
     [Header("Suelo")]
     [SerializeField] private Transform groundCheck;
     [SerializeField] private float groundRadius = 0.2f;
@@ -20,9 +25,16 @@ public class Player : MonoBehaviour, IDamageable
     [SerializeField] private Transform firePoint;
     [SerializeField] private LayerMask enemyMask;
 
+    [Header("Ataque con empuje")] // can be disabled, useful for testing
+    [SerializeField] private bool attackAddsLunge = true;
+    [SerializeField] private float attackLungeForce = 250f;
+
     [Header("VFX/SFX opcionales")]
     [SerializeField] private GameObject hitVfx;
     private Animator anim;
+
+    [Header("Control")]
+    [SerializeField] private bool blockInput = false;
 
     private Rigidbody2D rb;
     private bool isGrounded;
@@ -58,13 +70,18 @@ public class Player : MonoBehaviour, IDamageable
             transform.localScale = s;
         }
 
-        if (Input.GetButtonDown("Jump") && isGrounded && !IsDead)
+        if (Input.GetButtonDown("Jump"))
         {
-            var v = rb.linearVelocity;
-            v.y = jumpForce;
-            rb.linearVelocity = v;
-            anim.SetTrigger("Jump");
+            TryJump();
         }
+
+        //if (Input.GetButtonDown("Jump") && isGrounded && !IsDead)
+        //{
+        //    var v = rb.linearVelocity;
+        //    v.y = jumpForce;
+        //    rb.linearVelocity = v;
+        //    anim.SetTrigger("Jump");
+        //}
 
         cooldown -= Time.deltaTime;
         if (Input.GetButtonDown("Fire1") && cooldown <= 0f && !IsDead)
@@ -84,7 +101,20 @@ public class Player : MonoBehaviour, IDamageable
         }
 
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundRadius, groundLayer);
-        anim.SetBool("Airborne", !isGrounded);
+        //anim.SetBool("Airborne", !isGrounded);
+    }
+
+    private void TryJump()
+    {
+        if (isGrounded && jumpCounter > 0) jumpCounter = 0;
+
+        if (jumpCounter < maxJumps)
+        {
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+            jumpCounter++;
+            anim?.SetTrigger("Jump");
+        }
+        // if already jumped max times, do nothing, had to test it a few times
     }
 
     private void Attack()
