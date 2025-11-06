@@ -345,6 +345,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5305065134806363098, guid: 591994cf98ed93b41bbc3f1e77155cac, type: 3}
+      propertyPath: tweenTime
+      value: 0.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 5305065134806363098, guid: 591994cf98ed93b41bbc3f1e77155cac, type: 3}
+      propertyPath: fadeOutOnStart
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5305065134806363098, guid: 591994cf98ed93b41bbc3f1e77155cac, type: 3}
+      propertyPath: onEndFadeEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5305065134806363098, guid: 591994cf98ed93b41bbc3f1e77155cac, type: 3}
+      propertyPath: onEndFadeEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1178316434}
+    - target: {fileID: 5305065134806363098, guid: 591994cf98ed93b41bbc3f1e77155cac, type: 3}
+      propertyPath: onEndFadeEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: BlockInput
+      objectReference: {fileID: 0}
+    - target: {fileID: 5305065134806363098, guid: 591994cf98ed93b41bbc3f1e77155cac, type: 3}
+      propertyPath: onEndFadeEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: PlayerController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5305065134806363098, guid: 591994cf98ed93b41bbc3f1e77155cac, type: 3}
+      propertyPath: onEndFadeEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 6944821358725823661, guid: 591994cf98ed93b41bbc3f1e77155cac, type: 3}
       propertyPath: m_Type
       value: 3
@@ -361,10 +389,7 @@ PrefabInstance:
     - {fileID: 1415825692035352273, guid: 591994cf98ed93b41bbc3f1e77155cac, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 669256715529707949, guid: 591994cf98ed93b41bbc3f1e77155cac, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 629250597}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 591994cf98ed93b41bbc3f1e77155cac, type: 3}
 --- !u!1 &178148169
 GameObject:
@@ -1529,46 +1554,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &629250595 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 669256715529707949, guid: 591994cf98ed93b41bbc3f1e77155cac, type: 3}
-  m_PrefabInstance: {fileID: 151357309}
-  m_PrefabAsset: {fileID: 0}
 --- !u!224 &629250596 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 757293497393983738, guid: 591994cf98ed93b41bbc3f1e77155cac, type: 3}
   m_PrefabInstance: {fileID: 151357309}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &629250597
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 629250595}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1ffc5b4d5b31b2b4cb603a56ebca65c7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  image: {fileID: 6944821358725823661, guid: 591994cf98ed93b41bbc3f1e77155cac, type: 3}
-  tweenTime: 1
-  onEndFadeEvent:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1178316434}
-        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: BlockInput
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  fadeOutOnStart: 0
 --- !u!1 &748351772
 GameObject:
   m_ObjectHideFlags: 0

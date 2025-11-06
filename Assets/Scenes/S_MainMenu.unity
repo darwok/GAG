@@ -211,6 +211,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5305065134806363098, guid: 591994cf98ed93b41bbc3f1e77155cac, type: 3}
+      propertyPath: onEndFadeEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5305065134806363098, guid: 591994cf98ed93b41bbc3f1e77155cac, type: 3}
+      propertyPath: onEndFadeEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1275018482}
+    - target: {fileID: 5305065134806363098, guid: 591994cf98ed93b41bbc3f1e77155cac, type: 3}
+      propertyPath: onEndFadeEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: StartGame
+      objectReference: {fileID: 0}
+    - target: {fileID: 5305065134806363098, guid: 591994cf98ed93b41bbc3f1e77155cac, type: 3}
+      propertyPath: onEndFadeEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: MainMenu, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5305065134806363098, guid: 591994cf98ed93b41bbc3f1e77155cac, type: 3}
+      propertyPath: onEndFadeEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
