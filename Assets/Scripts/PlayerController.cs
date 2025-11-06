@@ -1,5 +1,6 @@
 using DG.Tweening.Core.Easing;
 using UnityEngine;
+using UnityEngine.UIElements.Experimental;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerController : MonoBehaviour
@@ -11,6 +12,12 @@ public class PlayerController : MonoBehaviour
     public bool blockInput;
     private float moveInput;
     private Rigidbody2D rb;
+
+    [Header("Combate")]
+    [SerializeField] private float attackCooldown = 0.35f;
+    [SerializeField] private Projectile projectilePrefab;
+    [SerializeField] private Transform firePoint;
+    [SerializeField] private LayerMask enemyMask;
 
     [Header("Comprobación de suelo")]
     [SerializeField] private Transform groundCheck;
@@ -28,6 +35,8 @@ public class PlayerController : MonoBehaviour
     private bool facingRight = false;
 
     private const int MaxJumps = 2;
+
+    private int facing = 1;
 
     void Awake()
     {
@@ -56,7 +65,7 @@ public class PlayerController : MonoBehaviour
 
         // Entrada horizontal
         moveInput = Input.GetAxisRaw("Horizontal");
-
+        facing = moveInput > 0 ? 1 : -1;
         anim?.SetFloat("MoveSpeed", Mathf.Abs(moveInput));
 
         // Saltar solo si est� en el suelo
@@ -109,6 +118,16 @@ public class PlayerController : MonoBehaviour
     public void Attack()
     {
         anim?.SetTrigger("Attack");
+        if (!projectilePrefab || !firePoint) return;
+        var proj = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity);
+        proj.gameObject.layer = LayerMask.NameToLayer("PlayerProjectile");
+        // configura a quién golpea
+        var mask = new LayerMask();
+        mask.value = enemyMask.value;
+        typeof(Projectile).GetField("hitMask", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
+            ?.SetValue(proj, mask);
+        proj.Fire(new Vector2(facing, 0));
+        // TODO: trigger de animación "Attack"
     }
 
     public void Death()
