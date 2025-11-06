@@ -8,16 +8,20 @@ public class HPManager : MonoBehaviour
     protected GameManager gameManager;
     public UnityEvent onDeathEvent;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    protected virtual void Start()
     {
         currHp = maxHp;
         gameManager = GameManager.instance;
     }
 
-    // Update is called once per frame
-    void Update()
+    public virtual void TakeDamage(int amount)
     {
-        
+        currHp -= amount;
+        currHp = Mathf.Clamp(currHp, 0, maxHp);
+    }
+
+    public bool IsAlive()
+    {
+        return currHp > 0;
     }
 }

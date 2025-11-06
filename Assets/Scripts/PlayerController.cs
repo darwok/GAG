@@ -7,23 +7,24 @@ public class PlayerController : MonoBehaviour
     [Header("Movimiento")]
     [SerializeField] private float speed = 5f;
     [SerializeField] private float jumpForce = 8f;
+    private int jumpCounter;
     public bool blockInput;
+    private float moveInput;
+    private Rigidbody2D rb;
 
-    [Header("Comprobaci�n de suelo")]
+    [Header("Comprobación de suelo")]
     [SerializeField] private Transform groundCheck;
     [SerializeField] private float groundRadius = 0.2f;
     [SerializeField] private LayerMask groundLayer;
     public float groundedRadius = 1;
+    private bool isGrounded;
 
     [Header("HP Management")]
     [SerializeField] private PlayerHP hp;
+    private const float KNOCKBACK_FORCE = 150;
 
-    private Rigidbody2D rb;
-    private bool isGrounded;
-    private float moveInput;
     private Animator anim;
 
-    private int jumpCounter;
     private bool facingRight = false;
 
     private const int MaxJumps = 2;
@@ -126,7 +127,7 @@ public class PlayerController : MonoBehaviour
         switch (other.gameObject.tag)
         {
             case "Enemy":
-                hp.RemoveHp(1);
+                hp.TakeDamage(1);
 
                 Vector2 direction = facingRight ? Vector2.left : Vector2.right;
                 direction += Vector2.up;
@@ -134,7 +135,7 @@ public class PlayerController : MonoBehaviour
                 break;
 
             case "Hazard":
-                hp.RemoveHp(hp.maxHp);
+                hp.TakeDamage(hp.maxHp);
                 GetComponent<Rigidbody>().AddForce(Vector3.up * KNOCKBACK_FORCE);
                 break;
         }

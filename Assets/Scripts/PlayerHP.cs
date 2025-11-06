@@ -3,15 +3,29 @@ using UnityEngine.Events;
 
 public class PlayerHP : HPManager
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    [SerializeField, Space(10)]
+    private UnityEvent<int> onStartEvent, onModifyHpEvent;
+    public PlayerController playerController;
+
+    [SerializeField, Space(10)]
+    private UnityEvent onDeathEvent;
+
+    protected override void Start()
     {
-        
+        base.Start();
+        onStartEvent?.Invoke(maxHp);
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void TakeDamage(int amount)
     {
-        
+        base.TakeDamage(amount);
+        onModifyHpEvent?.Invoke(currHp);
+        CameraManager.instance?.CamShake();
+        if (currHp <= 0)
+        {
+            playerController?.Death();
+            gameManager?.GameOver();
+            onDeathEvent?.Invoke();
+        }
     }
 }
