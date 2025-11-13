@@ -11,7 +11,6 @@ public class Plant : EnemyBase
 
     private float timer;
     private Transform player;
-    private Animator anim;
 
     protected override void Awake()
     {

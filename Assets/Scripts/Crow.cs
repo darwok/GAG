@@ -13,7 +13,6 @@ public class Crow : EnemyBase
     private Rigidbody2D rb;
     private Vector2 origin;
     private int dir = 1;
-    private Animator anim;
 
     protected override void Awake()
     {

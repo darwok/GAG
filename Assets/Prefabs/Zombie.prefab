@@ -256,6 +256,7 @@ MonoBehaviour:
   maxHealth: 2
   contactDamage: 1
   invulnTime: 0.2
+  anim: {fileID: 4144659644135252758}
   walkSpeed: 2
   groundCheck: {fileID: 4709316929202740581}
   wallCheck: {fileID: 1315728584539688701}

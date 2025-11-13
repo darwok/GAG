@@ -14,6 +14,7 @@ public class HpEnemy : HPManager
     public override void TakeDamage(int amount)
     {
         base.TakeDamage(amount);
+        TimeManager.instance?.FreezeFrame(0, 0.3f);
         if (currHp <= 0)
         {
             onDeathEvent?.Invoke();
@@ -23,8 +24,8 @@ public class HpEnemy : HPManager
 
     private void RemoveEnemy()
     {
-        gameObject.layer = TRANSPARENT_LAYER;
         animator?.SetTrigger("Death");
+        gameObject.layer = TRANSPARENT_LAYER;
         spriteRenderer.DOFade(0, VANISH_TIME).SetDelay(VANISH_TIME);
     }
 }

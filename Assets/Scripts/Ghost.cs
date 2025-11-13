@@ -10,7 +10,6 @@ public class Ghost : EnemyBase
 
     private Transform player;
     private float t0;
-    private Animator anim;
 
     protected override void Awake()
     {

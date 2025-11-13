@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 3708399131647169671}
   - component: {fileID: 5454479661117418438}
   - component: {fileID: 4553171845961014744}
-  - component: {fileID: 5280758186932946120}
   - component: {fileID: -1685575914741570910}
+  - component: {fileID: 5280758186932946120}
   m_Layer: 7
   m_Name: Crow
   m_TagString: Untagged
@@ -154,26 +154,6 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 0.235
---- !u!114 &5280758186932946120
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3551170510187535198}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ffd9d6cdaa3766428bd242bd681781e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHealth: 2
-  contactDamage: 1
-  invulnTime: 0.2
-  patrolSpeed: 2
-  diveSpeed: 4
-  patrolRange: 3
-  agroRangeX: 5
-  agroRangeY: 3
 --- !u!95 &-1685575914741570910
 Animator:
   serializedVersion: 7
@@ -196,3 +176,24 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &5280758186932946120
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3551170510187535198}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ffd9d6cdaa3766428bd242bd681781e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 2
+  contactDamage: 1
+  invulnTime: 0.2
+  anim: {fileID: -1685575914741570910}
+  patrolSpeed: 2
+  diveSpeed: 4
+  patrolRange: 3
+  agroRangeX: 5
+  agroRangeY: 3

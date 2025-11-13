@@ -156,8 +156,8 @@ public class PlayerController : MonoBehaviour
 
     public void Death()
     {
-        BlockInput(true);
         anim?.SetTrigger("Death");
+        BlockInput(true);
     }
 
     private void OnCollisionEnter2D(Collision2D other)

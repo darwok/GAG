@@ -152,13 +152,14 @@ MonoBehaviour:
   maxHealth: 2
   contactDamage: 1
   invulnTime: 0.2
+  anim: {fileID: -4054089656959290203}
   projectilePrefab: {fileID: 7858809838859898668, guid: d8ca88952f321714fa4666134bfddbd6, type: 3}
   firePoint: {fileID: 4914720367158839593}
   shootCooldown: 1.2
   shootRange: 8
   playerMask:
     serializedVersion: 2
-    m_Bits: 192
+    m_Bits: 200
 --- !u!95 &-4054089656959290203
 Animator:
   serializedVersion: 7

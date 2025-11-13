@@ -5,7 +5,7 @@ public class PlayerHP : HPManager
 {
     [SerializeField, Space(10)]
     private UnityEvent<int> onStartEvent, onModifyHpEvent;
-    public PlayerController playerController;
+    public Player player;
 
     [SerializeField, Space(10)]
     private UnityEvent onDeathEvent;
@@ -23,7 +23,7 @@ public class PlayerHP : HPManager
         CameraManager.instance?.CamShake();
         if (currHp <= 0)
         {
-            playerController?.Death();
+            player?.Die();
             gameManager?.GameOver();
             onDeathEvent?.Invoke();
         }

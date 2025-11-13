@@ -59,6 +59,8 @@ public class Player : MonoBehaviour, IDamageable
 
     void Update()
     {
+        if (blockInput) return;
+
         moveInput = Input.GetAxisRaw("Horizontal");
         anim?.SetFloat("MoveSpeed", Mathf.Abs(moveInput));
 
@@ -110,21 +112,21 @@ public class Player : MonoBehaviour, IDamageable
 
         if (jumpCounter < maxJumps)
         {
+            anim?.SetTrigger("Jump");
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
             jumpCounter++;
-            anim?.SetTrigger("Jump");
         }
         // if already jumped max times, do nothing, had to test it a few times
     }
 
     private void Attack()
     {
+        anim?.SetTrigger("Attack");
         if (!projectilePrefab || !firePoint) return;
         var proj = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity);
         proj.gameObject.layer = LayerMask.NameToLayer("PlayerProjectile");
         proj.SetHitMask(enemyMask);
         proj.Fire(new Vector2(facing, 0));
-        anim?.SetTrigger("Attack");
     }
 
     public void SetArmor(bool value)
@@ -153,11 +155,17 @@ public class Player : MonoBehaviour, IDamageable
         else UpdateHeartsUI?.Invoke(health, hasArmor);
     }
 
-    private void Die()
+    public void BlockInput(bool value)
+    {
+        blockInput = value;
+    }
+
+    public void Die()
     {
         anim?.SetTrigger("Death");
-        rb.linearVelocity = Vector2.zero;
-        rb.simulated = false;
+        BlockInput(true);
+        //rb.linearVelocity = Vector2.zero;
+        //rb.simulated = false;
     }
 
     void OnDrawGizmosSelected()
