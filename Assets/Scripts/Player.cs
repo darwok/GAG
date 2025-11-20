@@ -36,6 +36,12 @@ public class Player : MonoBehaviour, IDamageable
     [Header("Control")]
     [SerializeField] private bool blockInput = false;
 
+    [SerializeField] private Projectile crossbowProjectilePrefab;
+    [SerializeField] private bool hasCrossbow = false;
+    [SerializeField] private float crossbowAttackCooldown = 0.22f; // más rápido
+    [SerializeField] private Transform altFirePointLeft;  // opcional para doble disparo
+    [SerializeField] private Transform altFirePointRight; // opcional para doble disparo
+
     private Rigidbody2D rb;
     private bool isGrounded;
     private float moveInput;
@@ -106,6 +112,12 @@ public class Player : MonoBehaviour, IDamageable
         //anim.SetBool("Airborne", !isGrounded);
     }
 
+    public void EnableCrossbow(bool value)
+    {
+        hasCrossbow = value;
+        // si tienes UI, actualízala aquí
+    }
+
     private void TryJump()
     {
         if (isGrounded && jumpCounter > 0) jumpCounter = 0;
@@ -121,12 +133,41 @@ public class Player : MonoBehaviour, IDamageable
 
     private void Attack()
     {
+        //anim?.SetTrigger("Attack");
+        //if (!projectilePrefab || !firePoint) return;
+        //var proj = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity);
+        //proj.gameObject.layer = LayerMask.NameToLayer("PlayerProjectile");
+        //proj.SetHitMask(enemyMask);
+        //proj.Fire(new Vector2(facing, 0));
+
         anim?.SetTrigger("Attack");
-        if (!projectilePrefab || !firePoint) return;
-        var proj = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity);
-        proj.gameObject.layer = LayerMask.NameToLayer("PlayerProjectile");
-        proj.SetHitMask(enemyMask);
-        proj.Fire(new Vector2(facing, 0));
+        EventBus.OnPlayerAttack?.Invoke();
+
+        if (!firePoint) return;
+
+        if (hasCrossbow && crossbowProjectilePrefab)
+        {
+            float[] angles = { 0f, 30f, -30f };
+            foreach (float angle in angles)
+            {
+                var proj = Instantiate(crossbowProjectilePrefab, firePoint.position, Quaternion.identity);
+                proj.gameObject.layer = LayerMask.NameToLayer("PlayerProjectile");
+                proj.SetHitMask(enemyMask);
+
+                Vector2 dir = Quaternion.Euler(0, 0, angle) * new Vector2(facing, 0);
+                proj.Fire(dir.normalized);
+            }
+            // aplica tu cooldown de ballesta si lo tienes
+            return;
+        }
+
+        if (projectilePrefab)
+        {
+            var proj = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity);
+            proj.gameObject.layer = LayerMask.NameToLayer("PlayerProjectile");
+            proj.SetHitMask(enemyMask);
+            proj.Fire(new Vector2(facing, 0));
+        }
     }
 
     public void SetArmor(bool value)
@@ -164,6 +205,7 @@ public class Player : MonoBehaviour, IDamageable
     {
         anim?.SetTrigger("Death");
         BlockInput(true);
+        EventBus.OnPlayerDied?.Invoke();
         //rb.linearVelocity = Vector2.zero;
         //rb.simulated = false;
     }

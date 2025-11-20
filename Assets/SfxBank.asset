@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ac4a06419bf613468e658914fe6f706, type: 3}
+  m_Name: SfxBank
+  m_EditorClassIdentifier: 
+  jump: {fileID: 8300000, guid: b855f265d8a848742865f904304256cc, type: 3}
+  attackShoot: {fileID: 8300000, guid: 6dab562c3f8b0634283b34592a0d28cd, type: 3}
+  hurt: {fileID: 8300000, guid: 6be95401c63ec224a9649723d6c467ea, type: 3}
+  death: {fileID: 8300000, guid: 6be95401c63ec224a9649723d6c467ea, type: 3}
+  obstacleBreak: {fileID: 8300000, guid: ee0610b6db6618d48b24d348ecc50c27, type: 3}
+  pickup: {fileID: 8300000, guid: eeb0774dac4d5014ca2d9486a3c97c99, type: 3}
+  victory: {fileID: 8300000, guid: dc73b653f2e7506488e83ee06be25f14, type: 3}
