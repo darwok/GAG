@@ -37,6 +37,6 @@ public class Projectile : MonoBehaviour
             var normal = -direction;
             dmg.TakeDamage(damage, point, normal);
         }
-        if (destroyOnHit) Destroy(gameObject);
+        if (destroyOnHit) gameObject.SetActive(false);
     }
 }

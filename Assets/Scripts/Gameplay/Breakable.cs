@@ -13,7 +13,7 @@ public class Breakable : MonoBehaviour, IDamageable
         if (hp <= 0)
         {
             EventBus.OnObstacleBroken?.Invoke(hitPoint);
-            Destroy(gameObject);
+            gameObject.SetActive(false);
         }
     }
 }
