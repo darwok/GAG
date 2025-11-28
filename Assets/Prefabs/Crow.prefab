@@ -31,8 +31,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -6.69, y: -2.6543353, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -193,7 +193,7 @@ MonoBehaviour:
   invulnTime: 0.2
   anim: {fileID: -1685575914741570910}
   patrolSpeed: 2
-  diveSpeed: 4
+  diveSpeed: 3
   patrolRange: 3
   agroRangeX: 5
   agroRangeY: 3

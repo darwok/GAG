@@ -170,7 +170,7 @@ MonoBehaviour:
   contactDamage: 1
   invulnTime: 0.2
   anim: {fileID: 6064716354638228842}
-  moveSpeed: 1.6
+  moveSpeed: 1.2
   bobAmplitude: 0.3
   bobFrequency: 1.2
   agroRange: 8

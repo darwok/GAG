@@ -16,8 +16,8 @@ TagManager:
   - PlayerProjectile
   - EnemyProjectile
   - PowerUp
-  - 
-  - 
+  - Brakable
+  - Wall
   - 
   - 
   - 
