@@ -33,8 +33,8 @@ public class Plant : EnemyBase
         {
             Shoot(facing);
             timer = shootCooldown;
+            anim?.SetTrigger("Attack");
         }
-        anim?.SetTrigger("Attack");
     }
 
     private void Shoot(int facing)

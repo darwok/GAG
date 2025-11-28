@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -25,13 +24,13 @@ public class Player : MonoBehaviour, IDamageable
     [SerializeField] private Transform firePoint;
     [SerializeField] private LayerMask enemyMask;
 
-    [Header("Ataque con empuje")] // can be disabled, useful for testing
+    [Header("Ataque con empuje")]
     [SerializeField] private bool attackAddsLunge = true;
     [SerializeField] private float attackLungeForce = 250f;
 
-    //[Header("VFX/SFX opcionales")]
-    //[SerializeField] private GameObject hitVfx;
+    [Header("VFX/SFX")]
     private Animator anim;
+    public SoundList soundList;
 
     [Header("Control")]
     [SerializeField] private bool blockInput = false;
@@ -39,9 +38,10 @@ public class Player : MonoBehaviour, IDamageable
     [Header("Crossbow")]
     [SerializeField] private Projectile crossbowProjectilePrefab;
     [SerializeField] private bool hasCrossbow = false;
-    [SerializeField] private float crossbowAttackCooldown = 0.22f; // más rápido
+    [SerializeField] private float crossbowAttackCooldown = 0.22f;
     [SerializeField] private Transform altFirePointLeft;
     [SerializeField] private Transform altFirePointRight;
+
     [Header("Knife")]
     [SerializeField] private Projectile knifeProjectilePrefab;
     [SerializeField] private bool hasKnife = false;
@@ -68,15 +68,19 @@ public class Player : MonoBehaviour, IDamageable
         health = maxHealth;
     }
 
+    void Start()
+    {
+        // ARREGLO 1: cachear Animator, esto me ayudó a corregir las animaciones
+        anim = GetComponent<Animator>();
+        if (!anim) anim = GetComponentInChildren<Animator>();
+    }
+
     void Update()
     {
         if (blockInput) return;
 
         moveInput = Input.GetAxisRaw("Horizontal");
-        if (anim != null) // Replace null propagation with explicit null check
-        {
-            anim.SetFloat("MoveSpeed", Mathf.Abs(moveInput));
-        }
+        anim?.SetFloat("MoveSpeed", Mathf.Abs(moveInput));
 
         if (moveInput != 0)
         {
@@ -89,12 +93,14 @@ public class Player : MonoBehaviour, IDamageable
         if (Input.GetButtonDown("Jump"))
         {
             TryJump();
+            soundList?.PlaySound("Jump");
         }
 
         cooldown -= Time.deltaTime;
         if (Input.GetButtonDown("Fire1") && cooldown <= 0f && !IsDead)
         {
             Attack();
+            soundList?.PlaySoundRandomPitch("Attack");
             cooldown = attackCooldown;
         }
     }
@@ -109,7 +115,9 @@ public class Player : MonoBehaviour, IDamageable
         }
 
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundRadius, groundLayer);
-        //anim.SetBool("Airborne", !isGrounded);
+
+        // ARREGLO 2: actualizar Airborne para el Animator, me hacía falta según la lógica inicial del script original
+        anim?.SetBool("Airborne", !isGrounded);
     }
 
     public void EnableKnife(bool value)
@@ -129,49 +137,13 @@ public class Player : MonoBehaviour, IDamageable
 
         if (jumpCounter < maxJumps)
         {
-            if (anim != null) // Replace null propagation with explicit null check
-            {
-                anim.SetTrigger("Jump");
-            }
+            anim?.SetTrigger("Jump");
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
             jumpCounter++;
             EventBus.OnPlayerJump?.Invoke();
         }
     }
 
-    /*private void AttackOld()
-    {
-        if (anim != null) // Replace null propagation with explicit null check
-        {
-            anim.SetTrigger("Attack");
-        }
-        EventBus.OnPlayerAttack?.Invoke();
-
-        if (!firePoint) return;
-
-        if (hasCrossbow && crossbowProjectilePrefab)
-        {
-            float[] angles = { 0f, 30f, -30f };
-            foreach (float angle in angles)
-            {
-                var proj = Instantiate(crossbowProjectilePrefab, firePoint.position, Quaternion.identity);
-                proj.gameObject.layer = LayerMask.NameToLayer("PlayerProjectile");
-                proj.SetHitMask(enemyMask);
-
-                Vector2 dir = Quaternion.Euler(0, 0, angle) * new Vector2(facing, 0);
-                proj.Fire(dir.normalized);
-            }
-            return;
-        }
-
-        if (projectilePrefab)
-        {
-            var proj = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity);
-            proj.gameObject.layer = LayerMask.NameToLayer("PlayerProjectile");
-            proj.SetHitMask(enemyMask);
-            proj.Fire(new Vector2(facing, 0));
-        }
-    }*/
     public void Attack()
     {
         anim?.SetTrigger("Attack");
@@ -179,7 +151,6 @@ public class Player : MonoBehaviour, IDamageable
 
         if (!firePoint) return;
 
-        // 1) Si tiene ballesta, dispara triple
         if (hasCrossbow && crossbowProjectilePrefab)
         {
             float[] angles = { 0f, 30f, -30f };
@@ -194,17 +165,15 @@ public class Player : MonoBehaviour, IDamageable
             return;
         }
 
-        // 2) Si tiene knife, usa proyectil rápido
         if (hasKnife && knifeProjectilePrefab)
         {
             var proj = Instantiate(knifeProjectilePrefab, firePoint.position, Quaternion.identity);
             proj.gameObject.layer = LayerMask.NameToLayer("PlayerProjectile");
             proj.SetHitMask(enemyMask);
-            proj.Fire(new Vector2(facing, 0)); // el prefab knife ya tiene speed más alta
+            proj.Fire(new Vector2(facing, 0));
             return;
         }
 
-        // 3) Default: proyectil normal
         if (projectilePrefab)
         {
             var proj = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity);
@@ -224,6 +193,8 @@ public class Player : MonoBehaviour, IDamageable
     {
         if (IsDead) return;
 
+        soundList?.PlaySound("Hurt");
+
         if (hasArmor)
         {
             hasArmor = false;
@@ -234,24 +205,19 @@ public class Player : MonoBehaviour, IDamageable
 
         health -= Mathf.Max(1, amount);
         EventBus.OnPlayerDamaged?.Invoke(amount, hitPoint);
-        //if (hitVfx) Instantiate(hitVfx, hitPoint, Quaternion.identity);
 
         if (health <= 0) Die();
         else UpdateHeartsUI?.Invoke(health, hasArmor);
     }
 
-    public void BlockInput(bool value)
-    {
-        blockInput = value;
-    }
+    public void BlockInput(bool value) => blockInput = value;
 
     public void Die()
     {
         anim?.SetTrigger("Death");
         BlockInput(true);
         EventBus.OnPlayerDied?.Invoke();
-        //rb.linearVelocity = Vector2.zero;
-        //rb.simulated = false;
+        soundList?.PlaySound("Death");
     }
 
     void OnDrawGizmosSelected()

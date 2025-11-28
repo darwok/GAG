@@ -79,7 +79,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1201479367
   m_SortingLayer: 1
-  m_SortingOrder: 0
+  m_SortingOrder: 5
   m_Sprite: {fileID: 1495378776644062590, guid: 58787515e59c5374a962b950527ef162, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 1
@@ -192,6 +192,7 @@ MonoBehaviour:
   contactDamage: 1
   invulnTime: 0.2
   anim: {fileID: -1685575914741570910}
+  soundList: {fileID: 0}
   patrolSpeed: 2
   diveSpeed: 3
   patrolRange: 3

@@ -8,6 +8,7 @@ public abstract class EnemyBase : MonoBehaviour, IDamageable
     [SerializeField] protected int contactDamage = 1;
     [SerializeField] protected float invulnTime = 0.2f;
     public Animator anim;
+    public SoundList soundList;
 
     protected int health;
     protected float invulnTimer;
@@ -27,6 +28,7 @@ public abstract class EnemyBase : MonoBehaviour, IDamageable
         health -= Mathf.Max(1, amount);
         invulnTimer = invulnTime;
         // TODO: anim "Hurt"
+        soundList.PlaySound("Hit");
 
         if (health <= 0) Die();
     }

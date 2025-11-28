@@ -245,28 +245,16 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 422826308}
-  - component: {fileID: 422826307}
+  - component: {fileID: 422826310}
+  - component: {fileID: 422826309}
+  - component: {fileID: 422826311}
   m_Layer: 0
   m_Name: Audio
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
---- !u!114 &422826307
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 422826306}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 41f6d54f6a7dff14bb27cf200fd40043, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  track: 0
-  bank: {fileID: 11400000, guid: 4645620d11a9cfe4199726038e316012, type: 2}
 --- !u!4 &422826308
 Transform:
   m_ObjectHideFlags: 0
@@ -282,6 +270,142 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &422826309
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 422826306}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14d5061b8c9907847a4261a0bbb216e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundList:
+  - audioName: Jump
+    clip: {fileID: 8300000, guid: b855f265d8a848742865f904304256cc, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    mixer: {fileID: 5377348936473951441, guid: 7b62bc1b250c8cb42bec0c6271c03751, type: 2}
+    source: {fileID: 0}
+  - audioName: Attack
+    clip: {fileID: 8300000, guid: 6dab562c3f8b0634283b34592a0d28cd, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    mixer: {fileID: 5377348936473951441, guid: 7b62bc1b250c8cb42bec0c6271c03751, type: 2}
+    source: {fileID: 0}
+  - audioName: Menu
+    clip: {fileID: 8300000, guid: 0f9fba22164923e428321cf0180ba844, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 1
+    mixer: {fileID: 370539532655726280, guid: 7b62bc1b250c8cb42bec0c6271c03751, type: 2}
+    source: {fileID: 0}
+  - audioName: Victory
+    clip: {fileID: 8300000, guid: dc73b653f2e7506488e83ee06be25f14, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 1
+    mixer: {fileID: 370539532655726280, guid: 7b62bc1b250c8cb42bec0c6271c03751, type: 2}
+    source: {fileID: 0}
+  - audioName: Hurt
+    clip: {fileID: 8300000, guid: 6be95401c63ec224a9649723d6c467ea, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    mixer: {fileID: 5377348936473951441, guid: 7b62bc1b250c8cb42bec0c6271c03751, type: 2}
+    source: {fileID: 0}
+  - audioName: Button
+    clip: {fileID: 8300000, guid: 4bb7c87a3b01b7444b2fe66118d3e29d, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    mixer: {fileID: 5377348936473951441, guid: 7b62bc1b250c8cb42bec0c6271c03751, type: 2}
+    source: {fileID: 0}
+  - audioName: SimpleShot
+    clip: {fileID: 8300000, guid: eeb0774dac4d5014ca2d9486a3c97c99, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    mixer: {fileID: 5377348936473951441, guid: 7b62bc1b250c8cb42bec0c6271c03751, type: 2}
+    source: {fileID: 0}
+  - audioName: TripleShot
+    clip: {fileID: 8300000, guid: 64b29ef7ecceb484dae2333e7e761f84, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    mixer: {fileID: 5377348936473951441, guid: 7b62bc1b250c8cb42bec0c6271c03751, type: 2}
+    source: {fileID: 0}
+  - audioName: Shield
+    clip: {fileID: 8300000, guid: 0323f7e6606a9f3449c6da0dd4cd5249, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    mixer: {fileID: 5377348936473951441, guid: 7b62bc1b250c8cb42bec0c6271c03751, type: 2}
+    source: {fileID: 0}
+  - audioName: Hit
+    clip: {fileID: 8300000, guid: ee0610b6db6618d48b24d348ecc50c27, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    mixer: {fileID: 5377348936473951441, guid: 7b62bc1b250c8cb42bec0c6271c03751, type: 2}
+    source: {fileID: 0}
+  - audioName: GameOver
+    clip: {fileID: 8300000, guid: 0f9fba22164923e428321cf0180ba844, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 1
+    mixer: {fileID: 370539532655726280, guid: 7b62bc1b250c8cb42bec0c6271c03751, type: 2}
+    source: {fileID: 0}
+  - audioName: Gameplay
+    clip: {fileID: 8300000, guid: 0f9fba22164923e428321cf0180ba844, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 1
+    mixer: {fileID: 370539532655726280, guid: 7b62bc1b250c8cb42bec0c6271c03751, type: 2}
+    source: {fileID: 0}
+--- !u!114 &422826310
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 422826306}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1f30fded526a9f4295a46bfdd10f8a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundList: {fileID: 422826309}
+  musicMenuName: Menu
+  musicGameplayName: Gameplay
+  musicVictoryName: Victory
+  musicGameOverName: Gameover
+  musicFadeTime: 1
+  musicFadeDelay: 0
+  sfxJump: Jump
+  sfxAttack: Attack
+  sfxHurt: Hurt
+  sfxDeath: Death
+  sfxPickup: Pickup
+  sfxBreak: Break
+  sfxHit: Hit
+--- !u!114 &422826311
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 422826306}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41f6d54f6a7dff14bb27cf200fd40043, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  track: 0
 --- !u!224 &460585844 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 757293497393983738, guid: 591994cf98ed93b41bbc3f1e77155cac, type: 3}
