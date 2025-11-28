@@ -10,7 +10,7 @@ public class SfxEventsListener : MonoBehaviour
         EventBus.OnPlayerDied += OnDied;
         EventBus.OnEnemyKilled += OnEnemyKilled;
         EventBus.OnObstacleBroken += OnBreak;
-        EventBus.OnLevelWon += OnWin;
+        //EventBus.OnLevelWon += OnWin;
     }
     void OnDisable()
     {
@@ -20,7 +20,7 @@ public class SfxEventsListener : MonoBehaviour
         EventBus.OnPlayerDied -= OnDied;
         EventBus.OnEnemyKilled -= OnEnemyKilled;
         EventBus.OnObstacleBroken -= OnBreak;
-        EventBus.OnLevelWon -= OnWin;
+        //EventBus.OnLevelWon -= OnWin;
     }
 
     void OnJump() => SfxPlayer.I?.PlayJump(Vector3.zero);
@@ -29,5 +29,5 @@ public class SfxEventsListener : MonoBehaviour
     void OnDied() => SfxPlayer.I?.PlayDeath(Vector3.zero);
     void OnEnemyKilled(GameObject g) => SfxPlayer.I?.PlayAttack(g ? g.transform.position : Vector3.zero);
     void OnBreak(Vector2 p) => SfxPlayer.I?.PlayObstacleBreak(p);
-    void OnWin() => SfxPlayer.I?.PlayVictory(Vector3.zero);
+    //void OnWin() => SfxPlayer.I?.PlayVictory(Vector3.zero);
 }

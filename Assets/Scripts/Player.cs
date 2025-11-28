@@ -29,18 +29,23 @@ public class Player : MonoBehaviour, IDamageable
     [SerializeField] private bool attackAddsLunge = true;
     [SerializeField] private float attackLungeForce = 250f;
 
-    [Header("VFX/SFX opcionales")]
-    [SerializeField] private GameObject hitVfx;
+    //[Header("VFX/SFX opcionales")]
+    //[SerializeField] private GameObject hitVfx;
     private Animator anim;
 
     [Header("Control")]
     [SerializeField] private bool blockInput = false;
 
+    [Header("Crossbow")]
     [SerializeField] private Projectile crossbowProjectilePrefab;
     [SerializeField] private bool hasCrossbow = false;
     [SerializeField] private float crossbowAttackCooldown = 0.22f; // más rápido
-    [SerializeField] private Transform altFirePointLeft;  // opcional para doble disparo
-    [SerializeField] private Transform altFirePointRight; // opcional para doble disparo
+    [SerializeField] private Transform altFirePointLeft;
+    [SerializeField] private Transform altFirePointRight;
+    [Header("Knife")]
+    [SerializeField] private Projectile knifeProjectilePrefab;
+    [SerializeField] private bool hasKnife = false;
+    [SerializeField] private float knifeAttackCooldown = 0.18f;
 
     private Rigidbody2D rb;
     private bool isGrounded;
@@ -68,7 +73,10 @@ public class Player : MonoBehaviour, IDamageable
         if (blockInput) return;
 
         moveInput = Input.GetAxisRaw("Horizontal");
-        anim?.SetFloat("MoveSpeed", Mathf.Abs(moveInput));
+        if (anim != null) // Replace null propagation with explicit null check
+        {
+            anim.SetFloat("MoveSpeed", Mathf.Abs(moveInput));
+        }
 
         if (moveInput != 0)
         {
@@ -82,14 +90,6 @@ public class Player : MonoBehaviour, IDamageable
         {
             TryJump();
         }
-
-        //if (Input.GetButtonDown("Jump") && isGrounded && !IsDead)
-        //{
-        //    var v = rb.linearVelocity;
-        //    v.y = jumpForce;
-        //    rb.linearVelocity = v;
-        //    anim.SetTrigger("Jump");
-        //}
 
         cooldown -= Time.deltaTime;
         if (Input.GetButtonDown("Fire1") && cooldown <= 0f && !IsDead)
@@ -112,10 +112,15 @@ public class Player : MonoBehaviour, IDamageable
         //anim.SetBool("Airborne", !isGrounded);
     }
 
+    public void EnableKnife(bool value)
+    {
+        hasKnife = value;
+        hasCrossbow = false;
+    }
+
     public void EnableCrossbow(bool value)
     {
         hasCrossbow = value;
-        // si tienes UI, actualízala aquí
     }
 
     private void TryJump()
@@ -124,23 +129,22 @@ public class Player : MonoBehaviour, IDamageable
 
         if (jumpCounter < maxJumps)
         {
-            anim?.SetTrigger("Jump");
+            if (anim != null) // Replace null propagation with explicit null check
+            {
+                anim.SetTrigger("Jump");
+            }
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
             jumpCounter++;
+            EventBus.OnPlayerJump?.Invoke();
         }
-        // if already jumped max times, do nothing, had to test it a few times
     }
 
-    private void Attack()
+    /*private void AttackOld()
     {
-        //anim?.SetTrigger("Attack");
-        //if (!projectilePrefab || !firePoint) return;
-        //var proj = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity);
-        //proj.gameObject.layer = LayerMask.NameToLayer("PlayerProjectile");
-        //proj.SetHitMask(enemyMask);
-        //proj.Fire(new Vector2(facing, 0));
-
-        anim?.SetTrigger("Attack");
+        if (anim != null) // Replace null propagation with explicit null check
+        {
+            anim.SetTrigger("Attack");
+        }
         EventBus.OnPlayerAttack?.Invoke();
 
         if (!firePoint) return;
@@ -157,10 +161,50 @@ public class Player : MonoBehaviour, IDamageable
                 Vector2 dir = Quaternion.Euler(0, 0, angle) * new Vector2(facing, 0);
                 proj.Fire(dir.normalized);
             }
-            // aplica tu cooldown de ballesta si lo tienes
             return;
         }
 
+        if (projectilePrefab)
+        {
+            var proj = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity);
+            proj.gameObject.layer = LayerMask.NameToLayer("PlayerProjectile");
+            proj.SetHitMask(enemyMask);
+            proj.Fire(new Vector2(facing, 0));
+        }
+    }*/
+    public void Attack()
+    {
+        anim?.SetTrigger("Attack");
+        EventBus.OnPlayerAttack?.Invoke();
+
+        if (!firePoint) return;
+
+        // 1) Si tiene ballesta, dispara triple
+        if (hasCrossbow && crossbowProjectilePrefab)
+        {
+            float[] angles = { 0f, 30f, -30f };
+            foreach (float angle in angles)
+            {
+                var proj = Instantiate(crossbowProjectilePrefab, firePoint.position, Quaternion.identity);
+                proj.gameObject.layer = LayerMask.NameToLayer("PlayerProjectile");
+                proj.SetHitMask(enemyMask);
+                Vector2 dir = Quaternion.Euler(0, 0, angle) * new Vector2(facing, 0);
+                proj.Fire(dir.normalized);
+            }
+            return;
+        }
+
+        // 2) Si tiene knife, usa proyectil rápido
+        if (hasKnife && knifeProjectilePrefab)
+        {
+            var proj = Instantiate(knifeProjectilePrefab, firePoint.position, Quaternion.identity);
+            proj.gameObject.layer = LayerMask.NameToLayer("PlayerProjectile");
+            proj.SetHitMask(enemyMask);
+            proj.Fire(new Vector2(facing, 0)); // el prefab knife ya tiene speed más alta
+            return;
+        }
+
+        // 3) Default: proyectil normal
         if (projectilePrefab)
         {
             var proj = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity);
@@ -190,7 +234,7 @@ public class Player : MonoBehaviour, IDamageable
 
         health -= Mathf.Max(1, amount);
         EventBus.OnPlayerDamaged?.Invoke(amount, hitPoint);
-        if (hitVfx) Instantiate(hitVfx, hitPoint, Quaternion.identity);
+        //if (hitVfx) Instantiate(hitVfx, hitPoint, Quaternion.identity);
 
         if (health <= 0) Die();
         else UpdateHeartsUI?.Invoke(health, hasArmor);

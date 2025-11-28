@@ -12,7 +12,4 @@ public class SfxBank : ScriptableObject
     [Header("Mundo")]
     public AudioClip obstacleBreak;
     public AudioClip pickup;
-
-    [Header("Meta")]
-    public AudioClip victory;
 }

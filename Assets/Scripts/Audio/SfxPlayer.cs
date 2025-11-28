@@ -26,5 +26,4 @@ public class SfxPlayer : MonoBehaviour
     public void PlayDeath(Vector3 pos) => PlayOneShot(bank?.death, pos);
     public void PlayPickup(Vector3 pos) => PlayOneShot(bank?.pickup, pos);
     public void PlayObstacleBreak(Vector3 p) => PlayOneShot(bank?.obstacleBreak, p);
-    public void PlayVictory(Vector3 pos) => PlayOneShot(bank?.victory, pos);
 }
