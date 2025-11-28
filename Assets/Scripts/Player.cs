@@ -9,7 +9,7 @@ public class Player : MonoBehaviour, IDamageable
 
     [Header("Doble salto")]
     [SerializeField] private int maxJumps = 2;
-    [SerializeField] private float groundedRadius = 0.6f;
+    //[SerializeField] private float groundedRadius = 0.6f;
     private int jumpCounter;
 
     [Header("Suelo")]
@@ -45,7 +45,7 @@ public class Player : MonoBehaviour, IDamageable
     [Header("Knife")]
     [SerializeField] private Projectile knifeProjectilePrefab;
     [SerializeField] private bool hasKnife = false;
-    [SerializeField] private float knifeAttackCooldown = 0.18f;
+    //[SerializeField] private float knifeAttackCooldown = 0.18f;
 
     private Rigidbody2D rb;
     private bool isGrounded;
@@ -100,8 +100,10 @@ public class Player : MonoBehaviour, IDamageable
         if (Input.GetButtonDown("Fire1") && cooldown <= 0f && !IsDead)
         {
             Attack();
-            soundList?.PlaySoundRandomPitch("Attack");
             cooldown = attackCooldown;
+            Vector2 direction = facing == 1 ? Vector2.right : Vector2.left;
+            GetComponent<Rigidbody2D>().AddForce(direction * attackLungeForce);
+            soundList?.PlaySoundRandomPitch("Attack");
         }
     }
 
